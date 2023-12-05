@@ -7,14 +7,18 @@ let cityInput = document.getElementById("cityInput")
 let searchInject = document.getElementById("searchInject")
 let currentTemp = document.getElementById("currentTemp");
 let currentHighTemp = document.getElementById("currentHighTemp");
+let currentSideHighTemp = document.getElementById("currentSideHighTemp");
 let currentLowTemp = document.getElementById("currentLowTemp");
+let currentSideLowTemp = document.getElementById("currentSideLowTemp");
 let nineAM = document.getElementById("nineAM");
 let twelvePM = document.getElementById("twelvePM");
 let threePM = document.getElementById("threePM");
 let sixPM = document.getElementById("sixPM");
 let ninePM = document.getElementById("ninePM");
 let twelveAM = document.getElementById("twelveAM");
+let savedButton = document.getElementById("savedButton");
 
+let savedCityArray = [];
 let userInput = "";
 let geoCity1;
 let geoCity2;
@@ -26,8 +30,12 @@ let fiveDayData;
 let lat;
 let lon;
 
+if (localStorage.getItem("cities")) {
+    savedCityArray = JSON.parse(localStorage.getItem("cities"));
+};
+
 cityInput.addEventListener("keyup", function (e) {
-    userInput = cityInput.value.toLowerCase();
+    userInput = cityInput.value;
     geoCall();
 });
 
@@ -44,7 +52,7 @@ async function geoCall() {
         showCities();
 
         console.log(data);
-    }else{
+    } else {
         searchInject.innerHTML = "";
     }
 };
@@ -120,9 +128,11 @@ function showCities() {
 async function CurrentWeatherCall() {
     const promise = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=imperial`)
     const data = await promise.json();
-    currentTemp.innerText = await data.main.temp + "°F";
-    currentHighTemp.innerText = await data.main.temp_max + "°";
-    currentLowTemp.innerText = await data.main.temp_min + "°";
+    currentTemp.innerText = await Math.round(data.main.temp) + "°F";
+    currentSideHighTemp.innerText = await Math.round(data.main.temp_max) + "°";
+    currentHighTemp.innerText = await Math.round(data.main.temp_max) + "°";
+    currentSideLowTemp.innerText = await Math.round(data.main.temp_min) + "°";
+    currentLowTemp.innerText = await Math.round(data.main.temp_min) + "°";
 
     console.log(data);
 };
@@ -132,15 +142,57 @@ async function FiveDayCall() {
     const data = await promise.json();
     fiveDayData = data;
 
-    nineAM.innerText = await data.list[0].main.temp;
-    twelvePM.innerText = await data.list[1].main.temp;
-    threePM.innerText = await data.list[2].main.temp;
-    sixPM.innerText = await data.list[3].main.temp;
-    ninePM.innerText = await data.list[4].main.temp;
-    twelveAM.innerText = await data.list[5].main.temp;
+    // nineAM.innerText = await data.list[0].main.temp;
+    // twelvePM.innerText = await data.list[1].main.temp;
+    // threePM.innerText = await data.list[2].main.temp;
+    // sixPM.innerText = await data.list[3].main.temp;
+    // ninePM.innerText = await data.list[4].main.temp;
+    // twelveAM.innerText = await data.list[5].main.temp;
 
     console.log(data.list);
 };
+
+
+//non functional
+savedButton.addEventListener("click", function (e) {
+    if (userInput != "") {
+        savedCityArray.push(userInput.value);
+        localStorage.setItem("cities", JSON.stringify(savedCityArray));
+        console.log(savedCityArray);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+function HourlyForecast() {
+
+
+
+    //call all of the data from hourly forecast
+    //put them into an array
+    //check if DT is equal to current day DT
+    //if true, remove from array.
+    //check all of DT plus one, or next number, time stamps
+    //get 9am - 12am
+    //add that to variable
+    //go to next DT
+    //after five DT, end function
+};
+//i need to get the three hour forecast of a single day to show the temp at that time. I cannot use this for current day because openweather big suck. I can do this for the day after current day and 4 days after that. That leaves the current day and the last day that the forbidden one must be used.
+
+
+
+
+
 
 
 
