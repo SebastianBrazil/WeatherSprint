@@ -1,3 +1,16 @@
 body {
     background-color: #0073E6;
 }
+
+.white{
+    color: #000000;
+    text-decoration: none;
+}
+
+.searchBox{
+    position: absolute;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #ffffff;
+    border-radius: 10px;
+}

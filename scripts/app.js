@@ -52,7 +52,7 @@ async function geoCall() {
 function showCities() {
     searchInject.innerHTML = "";
     let cityOne = document.createElement("a");
-    cityOne.className = "btn btn-primary d-flex justify-content-start";
+    cityOne.className = "white d-flex justify-content-start";
     cityOne.textContent = geoCity1;
     cityOne.addEventListener("click", function (e) {
         lat = geoData[0].lat;
@@ -63,7 +63,7 @@ function showCities() {
     });
 
     let cityTwo = document.createElement("a");
-    cityTwo.className = "btn btn-primary d-flex justify-content-start";
+    cityTwo.className = "white d-flex justify-content-start";
     cityTwo.textContent = geoCity2;
     cityTwo.addEventListener("click", function (e) {
         lat = geoData[1].lat;
@@ -74,7 +74,7 @@ function showCities() {
     });
 
     let cityThree = document.createElement("a");
-    cityThree.className = "btn btn-primary d-flex justify-content-start";
+    cityThree.className = "white d-flex justify-content-start";
     cityThree.textContent = geoCity3;
     cityThree.addEventListener("click", function (e) {
         lat = geoData[2].lat;
@@ -85,7 +85,7 @@ function showCities() {
     });
 
     let cityFour = document.createElement("a");
-    cityFour.className = "btn btn-primary d-flex justify-content-start";
+    cityFour.className = "white d-flex justify-content-start";
     cityFour.textContent = geoCity4;
     cityFour.addEventListener("click", function (e) {
         lat = geoData[3].lat;
@@ -96,7 +96,7 @@ function showCities() {
     });
 
     let cityFive = document.createElement("a");
-    cityFive.className = "btn btn-primary d-flex justify-content-start";
+    cityFive.className = "white d-flex justify-content-start";
     cityFive.textContent = geoCity5;
     cityFive.addEventListener("click", function (e) {
         lat = geoData[4].lat;
@@ -107,6 +107,7 @@ function showCities() {
     });
 
     let holderDiv = document.createElement("div");
+    holderDiv.className = "searchBox";
 
     holderDiv.appendChild(cityOne);
     holderDiv.appendChild(cityTwo);
