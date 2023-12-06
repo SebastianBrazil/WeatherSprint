@@ -1,5 +1,11 @@
 body {
     background-color: #0073E6;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+p {
+    color: #ffffff;
 }
 
 .white{
@@ -13,4 +19,9 @@ body {
     padding-right: 50px;
     background-color: #ffffff;
     border-radius: 10px;
+}
+
+.box {
+    background-color: #ffffff;
+    color: #000000;
 }
