@@ -21,6 +21,7 @@ let clear = document.getElementById("clear");
 let name = document.getElementById("name");
 let date = document.getElementById("date");
 let clouds = document.getElementById("clouds");
+let replaceWithCloud = document.getElementById("replaceWithCloud");
 
 let savedCityArray = [];
 let fiveArray = [];
@@ -35,6 +36,7 @@ let fiveDayData;
 let lat;
 let lon;
 let putCityToStorage = "";
+let notListOpen = true;
 
 if (localStorage.getItem("cities")) {
     savedCityArray = JSON.parse(localStorage.getItem("cities"));
@@ -94,7 +96,7 @@ function showCities() {
     //         console.log(geoCity1);
     //     }
     // }
-    
+
     cityOne.textContent = geoCity1.join(", ");
     cityOne.addEventListener("click", function (e) {
         lat = geoData[0].lat;
@@ -224,28 +226,32 @@ savedButton.addEventListener("click", function (e) {
 
 openSavedButton.addEventListener("click", function (e) {
     searchInject.innerHTML = "";
+    if (notListOpen) {
+        let holderDiv = document.createElement("div");
+        holderDiv.className = "searchBox";
 
-    let holderDiv = document.createElement("div");
-    holderDiv.className = "searchBox";
+        for (let i = 0; i < savedCityArray.length; i++) {
+            let faveCity = document.createElement("a");
+            faveCity.className = "white d-flex justify-content-start";
+            faveCity.textContent = savedCityArray[i];
+            faveCity.addEventListener("click", function (e) {
+                //no
+                lat = geoData[4].lat;
+                lon = geoData[4].lon;
+                putCityToStorage = `${geoData[4].name}, ${geoData[4].state}, ${geoData[4].country}`
 
-    for (let i = 0; i < savedCityArray.length; i++) {
-        let faveCity = document.createElement("a");
-        faveCity.className = "white d-flex justify-content-start";
-        faveCity.textContent = savedCityArray[i];
-        faveCity.addEventListener("click", function (e) {
-            //no
-            lat = geoData[4].lat;
-            lon = geoData[4].lon;
-            putCityToStorage = `${geoData[4].name}, ${geoData[4].state}, ${geoData[4].country}`
+                CurrentWeatherCall();
+                FiveDayCall();
+                searchInject.innerHTML = "";
+            });
+            holderDiv.appendChild(faveCity);
+        }
 
-            CurrentWeatherCall();
-            FiveDayCall();
-            searchInject.innerHTML = "";
-        });
-        holderDiv.appendChild(faveCity);
+        searchInject.appendChild(holderDiv);
+        notListOpen = false;
+    } else {
+        notListOpen = true;
     }
-
-    searchInject.appendChild(holderDiv);
 });
 
 //debug
@@ -269,7 +275,7 @@ function HourlyForecast() {
     for (let i = 0; i < fiveDayData.length; i++) {
         // fiveArray += fiveDayData[i];
         let currentDate = new Date((fiveDayData[i].dt) * 1000);
-        console.log(currentDate.toLocaleString());
+        console.log(currentDate.toGMTString());
 
         //huge pepega: data from api is in utc, locale convert brings it to utc-7, should be 8 but AAAAAAAAAA
 

@@ -1,22 +1,38 @@
 body {
     background-color: #0073E6;
-    margin-left: 50px;
-    margin-top: 50px;
 }
 
 p {
     color: #ffffff;
 }
 
-.white{
+.white {
     color: #000000;
     text-decoration: none;
 }
 
-.searchBox{
+.searchBox {
     position: absolute;
-    padding-left: 50px;
-    padding-right: 50px;
+    top: 84px;
+    left: 1269px;
+    width: 495px;
+    height: 160px;
+    font-size: 20px;
+
+    padding-top: 5px;
+    padding-left: 60px;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.lookupBox {
+    position: absolute;
+    top: 28px;
+    left: 1269px;
+    width: 495px;
+    height: 56px;
+    font-size: 20px;
+    padding-left: 60px;
     background-color: #ffffff;
     border-radius: 10px;
 }
@@ -24,4 +40,34 @@ p {
 .box {
     background-color: #ffffff;
     color: #000000;
+}
+
+.magGlass {
+    position: absolute;
+    top: 43px;
+    left: 1270px;
+    height: 25px;
+    width: 50px;
+}
+
+.heart {
+    position: absolute;
+    top: 28px;
+    left: 1780px;
+    height: 56px;
+    width: 80px;
+}
+
+.mainDataBox {
+    position: absolute;
+    border: 5px solid #000000;
+    width: 940px;
+    height: 597px;
+    top: 112px;
+    left: 109px;
+    border-radius: 50px;
+
+
+    /* Width 940px Height 597px Top 112px Left 109px */
+
 }

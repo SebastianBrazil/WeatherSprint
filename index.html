@@ -11,49 +11,97 @@
 </head>
 
 <body>
-    <input id="cityInput" type="text" placeholder="Search">
-    <div id="searchInject"></div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="mainDataBox">
+                <p id="name" class="d-flex justify-content-center">Please Search For A City</p>
+                <p id="date" class="d-flex justify-content-center">{Date}</p>
+                <div id="replaceWithCloud">
+                    <p id="clouds">{cloudiness}</p>
+                </div>
     
-
-    <p id="name">Name of city</p>
-    <p id="date">Date</p>
-    <p id="clouds">cloudiness</p>
-
-    <br>
-    <br>
-    <br>
-
-    <p id="currentTemp">This is the current temperature</p>
-    <p id="currentHighTemp">This is the high temp</p>
-    <p id="currentLowTemp">This is the low temp</p>
-
-    <br>
-    <br>
-    <br>
-
-    <p id="currentSideHighTemp">This is the high temp for current day sidebar</p>
-    <p id="currentSideLowTemp">This is the low temp for current day sidebar</p>
+                <br>
+                <br>
+                <br>
     
-    <br>
-    <br>
-    <br>
+                <p id="currentTemp">This is the current temperature</p>
+                <p id="currentHighTemp">This is the high temp</p>
+                <p id="currentLowTemp">This is the low temp</p>
+    
+                <br>
+                <br>
+                <br>
 
-    <p id="nineAM">9am temp</p>
-    <p id="twelvePM">12pm temp</p>
-    <p id="threePM">3pm temp</p>
-    <p id="sixPM">6pm temp</p>
-    <p id="ninePM">9pm temp</p>
-    <p id="twelveAM">12am temp</p>
+                <p id="savedButton" class="box">This is a favorite button trust, it saves a city to local storage</p>
+                <p id="clear" class="box">debug_Clear storage</p>
+            </div>
+        </div>
 
-    <p id="savedButton" class="box">This is a favorite button trust, it saves a city to local storage</p>
-    <p id="openSavedButton" class="box">This opens the favorites</p>
 
-    <br>
-    <br>
-    <br>
+        <div class="row">
+            <input class="lookupBox" id="cityInput" type="text" placeholder="Search">
+            <img class="magGlass" src="./assets/glass.png" alt="Magnifying Glass">
+            <img id="openSavedButton" class="heart" src="./assets/heart.png" alt="Saved Cities">
+            <div id="searchInject"></div>
+        </div>
 
-    <p id="clear" class="box">debug_Clear storage</p>
 
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <p id="currentSideHighTemp">This is the high temp for current day sidebar</p>
+        <p id="currentSideLowTemp">This is the low temp for current day sidebar</p>
+
+        <br>
+        <br>
+        <br>
+
+        <p id="nineAM">9am temp</p>
+        <p id="twelvePM">12pm temp</p>
+        <p id="threePM">3pm temp</p>
+        <p id="sixPM">6pm temp</p>
+        <p id="ninePM">9pm temp</p>
+        <p id="twelveAM">12am temp</p>
+
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
