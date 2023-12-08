@@ -1,3 +1,5 @@
+// In my defense, the figma was designed with the daily  16-day in mind.
+
 import { weatherApiKey, forbiddenKey } from "./keyring.js";
 
 let cityInput = document.getElementById("cityInput")
@@ -18,9 +20,10 @@ let openSavedButton = document.getElementById("openSavedButton");
 let clear = document.getElementById("clear");
 let name = document.getElementById("name");
 let date = document.getElementById("date");
-let clouds = document.getElementById("clouds");
 let replaceWithCloud = document.getElementById("replaceWithCloud");
 
+let meat;
+let eman = [];
 let savedCityArray = [];
 let bigData = [];
 let fiveArray = [];
@@ -88,6 +91,7 @@ function showCities() {
             CurrentWeatherCall();
             FiveDayCall();
             searchInject.innerHTML = "";
+            cityInput.value = "";
         });
         holderDiv.appendChild(popCity);
     }
@@ -104,12 +108,38 @@ async function CurrentWeatherCall() {
     currentSideLowTemp.innerText = Math.round(data.main.temp_min) + "°";
     currentLowTemp.innerText = Math.round(data.main.temp_min) + "°";
 
-    name.innerText = putCityToStorage;
+    let nameArray = putCityToStorage.split(", ");
+    if (nameArray[2] != "US") {
+        name.innerText = `${nameArray[0]}, ${nameArray[2]}`;
+    } else {
+        name.innerText = `${nameArray[0]}, ${nameArray[1]}`;
+    }
 
-    let currentDate = await new Date((data.dt) * 1000);
-    date.innerText = await currentDate.toLocaleString();
+    replaceWithCloud.innerHTML = "";
+    eman = data.weather[0].icon.split("");
+    let img = document.createElement("img");
+    img.className = "imageSize";
+    if (await data.clouds.all < 11 && eman[2] == "d"){
+        img.src = "./assets/sunny.png";
+        img.alt = "Sunny";
+    } else if (await data.clouds.all < 51 && eman[2] == "d"){
+        img.src = "./assets/cloudySun.png";
+        img.alt = "Cloudy";
+    } else if (await data.clouds.all < 11 && eman[2] == "n") {
+        img.src = "./assets/night.png";
+        img.alt = "Night";
+    } else if (await data.clouds.all < 51 && eman[2] == "n") {
+        img.src = "./assets/cloudyNight.png";
+        img.alt = "Cloudy Night";
+    } else {
+        img.src = "./assets/clouds.png";
+        img.alt = "Full clouds at Night";
+        img.className = "imageSizeCloud";
+    }
+    replaceWithCloud.appendChild(img);
 
-    clouds.innerText = await data.clouds.all;
+    let currentDate = new Date((data.dt) * 1000);
+    date.innerText = currentDate.toLocaleString();
 
     console.log(data);
 };
@@ -121,13 +151,6 @@ async function FiveDayCall() {
     fiveDayData = data.list;
 
     HourlyForecast();
-    // nineAM.innerText = await data.list[0].main.temp;
-    // twelvePM.innerText = await data.list[1].main.temp;
-    // threePM.innerText = await data.list[2].main.temp;
-    // sixPM.innerText = await data.list[3].main.temp;
-    // ninePM.innerText = await data.list[4].main.temp;
-    // twelveAM.innerText = await data.list[5].main.temp;
-
     console.log(fiveDayData);
 };
 
@@ -209,6 +232,7 @@ function HourlyForecast() {
         let currentDate = new Date((fiveDayData[i].dt) * 1000);
         console.log(currentDate.toGMTString());
 
+        currentDate.split(" ");
 
     }
     // console.log(fiveArray)
@@ -218,6 +242,13 @@ function HourlyForecast() {
     //     console.log(currentDate.toLocaleString());
     // }
 
+
+    // nineAM.innerText = await data.list[0].main.temp;
+    // twelvePM.innerText = await data.list[1].main.temp;
+    // threePM.innerText = await data.list[2].main.temp;
+    // sixPM.innerText = await data.list[3].main.temp;
+    // ninePM.innerText = await data.list[4].main.temp;
+    // twelveAM.innerText = await data.list[5].main.temp;
 
 };
 //i need to get the three hour forecast of a single day to show the temp at that time. I cannot use this for current day because openweather big suck. I can do this for the day after current day and 4 days after that. That leaves the current day and the last day that the forbidden one must be used.

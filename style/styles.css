@@ -66,8 +66,33 @@ p {
     top: 112px;
     left: 109px;
     border-radius: 50px;
+}
 
+.cSHT {
+    position: absolute;
+    top: 150px;
+    left: 1600px;
+    width: 100px;
+}
 
-    /* Width 940px Height 597px Top 112px Left 109px */
+.cSLT {
+    position: absolute;
+    top: 150px;
+    left: 1700px;
+    width: 100px;
+}
+.imageSize {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    width: 100px;
+    height: 100px;
+}
 
+.imageSizeCloud {
+    position: absolute;
+    top: 250px;
+    left: 200px;
+    width: 100px;
+    height: 50px;
 }
