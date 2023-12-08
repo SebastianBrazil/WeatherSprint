@@ -1,5 +1,3 @@
-//for that 7-day forecast, use another api: https://api.weather.gov/points/38.8894,-77.0352, or c/v `https://api.weather.gov/points/${lat},${lon}`
-
 import { weatherApiKey, forbiddenKey } from "./keyring.js";
 
 let cityInput = document.getElementById("cityInput")
@@ -24,26 +22,24 @@ let clouds = document.getElementById("clouds");
 let replaceWithCloud = document.getElementById("replaceWithCloud");
 
 let savedCityArray = [];
+let bigData = [];
 let fiveArray = [];
 let userInput = "";
-let geoCity1 = [];
-let geoCity2 = [];
-let geoCity3 = [];
-let geoCity4 = [];
-let geoCity5 = [];
-let geoData;
 let fiveDayData;
 let lat;
 let lon;
 let putCityToStorage = "";
 let notListOpen = true;
 
+//checks if user has cities saved on local stoage
 if (localStorage.getItem("cities")) {
     savedCityArray = JSON.parse(localStorage.getItem("cities"));
 };
 
+
 //is temporarily 'keypress', was originally keyup
 // keyup allows for autocomplete
+//takes the user's input and sends it to the geolocater function
 cityInput.addEventListener("keypress", function (e) {
     if (event.key === "Enter") {
         userInput = cityInput.value;
@@ -51,122 +47,54 @@ cityInput.addEventListener("keypress", function (e) {
     }
 });
 
+//calls the geolocater api to gather a list of cities
 async function geoCall() {
     if (userInput != "") {
         const promise = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${userInput}&limit=5&appid=${weatherApiKey}`)
         const data = await promise.json();
-        geoData = await data;
-        if (data[0]) {
-            geoCity1 = [`${data[0].name}`, `${data[0].state}`, `${data[0].country}`]
-        }
-        if (data[1]) {
-            geoCity2 = [`${data[1].name}`, ` ${data[1].state}`, ` ${data[1].country}`]
-        }
-        if (data[2]) {
-            geoCity3 = [`${data[2].name}`, ` ${data[2].state}`, ` ${data[2].country}`]
-        }
-        if (data[3]) {
-            geoCity4 = [`${data[3].name}`, ` ${data[3].state}`, ` ${data[3].country}`]
-        }
-        if (data[4]) {
-            geoCity5 = [`${data[4].name}`, ` ${data[4].state}`, ` ${data[4].country}`]
-        }
-        showCities();
 
-        console.log(data);
+        bigData = [];
+        for (let i = 0; i < data.length; i++) {
+            bigData.push(`${data[i].name}, ${data[i].state}, ${data[i].country}, ${data[i].lat}, ${data[i].lon}`);
+        }
+
+        console.log(bigData);
+        showCities();
     } else {
         searchInject.innerHTML = "";
     }
 };
 
+//creates the searchbar dropdown
 function showCities() {
     searchInject.innerHTML = "";
-    let cityOne = document.createElement("a");
-    cityOne.className = "white d-flex justify-content-start";
-    //for showCities, have if statement checking if .country = US. if true, remove US. if not true, remove state. This is in line with prototype
-
-    // if (geoCity1 != []) {
-    //     if (geoCity1[2] != "US") {
-    //         geoCity1 = geoCity1.splice(geoCity1.indexOf("US"), 1);
-    //         cityOne.textContent = geoCity1.join(", ");
-    //         console.log(geoCity1);
-    //     } else {
-    //         geoCity1 = geoCity1.splice(geoCity1.indexOf(geoData[1].state), 1);
-    //         cityOne.textContent = geoCity1.join(", ");
-    //         console.log(geoCity1);
-    //     }
-    // }
-
-    cityOne.textContent = geoCity1.join(", ");
-    cityOne.addEventListener("click", function (e) {
-        lat = geoData[0].lat;
-        lon = geoData[0].lon;
-        putCityToStorage = `${geoData[0].name}, ${geoData[0].state}, ${geoData[0].country}`
-        CurrentWeatherCall();
-        FiveDayCall();
-        searchInject.innerHTML = "";
-        cityInput.value = "";
-    });
-
-    let cityTwo = document.createElement("a");
-    cityTwo.className = "white d-flex justify-content-start";
-    cityTwo.textContent = geoCity2;
-    cityTwo.addEventListener("click", function (e) {
-        lat = geoData[1].lat;
-        lon = geoData[1].lon;
-        putCityToStorage = `${geoData[1].name}, ${geoData[1].state}, ${geoData[1].country}`
-        CurrentWeatherCall();
-        FiveDayCall();
-        searchInject.innerHTML = "";
-    });
-
-    let cityThree = document.createElement("a");
-    cityThree.className = "white d-flex justify-content-start";
-    cityThree.textContent = geoCity3;
-    cityThree.addEventListener("click", function (e) {
-        lat = geoData[2].lat;
-        lon = geoData[2].lon;
-        putCityToStorage = `${geoData[2].name}, ${geoData[2].state}, ${geoData[2].country}`
-        CurrentWeatherCall();
-        FiveDayCall();
-        searchInject.innerHTML = "";
-    });
-
-    let cityFour = document.createElement("a");
-    cityFour.className = "white d-flex justify-content-start";
-    cityFour.textContent = geoCity4;
-    cityFour.addEventListener("click", function (e) {
-        lat = geoData[3].lat;
-        lon = geoData[3].lon;
-        putCityToStorage = `${geoData[3].name}, ${geoData[3].state}, ${geoData[3].country}`
-        CurrentWeatherCall();
-        FiveDayCall();
-        searchInject.innerHTML = "";
-    });
-
-    let cityFive = document.createElement("a");
-    cityFive.className = "white d-flex justify-content-start";
-    cityFive.textContent = geoCity5;
-    cityFive.addEventListener("click", function (e) {
-        lat = geoData[4].lat;
-        lon = geoData[4].lon;
-        putCityToStorage = `${geoData[4].name}, ${geoData[4].state}, ${geoData[4].country}`
-        CurrentWeatherCall();
-        FiveDayCall();
-        searchInject.innerHTML = "";
-    });
-
     let holderDiv = document.createElement("div");
     holderDiv.className = "searchBox";
 
-    holderDiv.appendChild(cityOne);
-    holderDiv.appendChild(cityTwo);
-    holderDiv.appendChild(cityThree);
-    holderDiv.appendChild(cityFour);
-    holderDiv.appendChild(cityFive);
+    for (let i = 0; i < bigData.length; i++) {
+        let geoArray = bigData[i].split(", ");
+        let popCity = document.createElement("a");
+        popCity.className = "white d-flex justify-content-start";
+        if (geoArray[2] != "US") {
+            popCity.textContent = `${geoArray[0]}, ${geoArray[2]}`;
+        } else {
+            popCity.textContent = `${geoArray[0]}, ${geoArray[1]}`;
+        }
+        popCity.addEventListener("click", function (e) {
+            lat = geoArray[3];
+            lon = geoArray[4];
+            putCityToStorage = `${geoArray[0]}, ${geoArray[1]}, ${geoArray[2]}, ${geoArray[3]}, ${geoArray[4]}`
+
+            CurrentWeatherCall();
+            FiveDayCall();
+            searchInject.innerHTML = "";
+        });
+        holderDiv.appendChild(popCity);
+    }
     searchInject.appendChild(holderDiv);
 };
 
+//calls the current weather api
 async function CurrentWeatherCall() {
     const promise = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=imperial`);
     const data = await promise.json();
@@ -186,6 +114,7 @@ async function CurrentWeatherCall() {
     console.log(data);
 };
 
+//calls the five day-three hour api
 async function FiveDayCall() {
     const promise = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=imperial`)
     const data = await promise.json();
@@ -202,9 +131,10 @@ async function FiveDayCall() {
     console.log(fiveDayData);
 };
 
+//saves cities to local storage
 savedButton.addEventListener("click", function (e) {
     if (putCityToStorage == "") {
-        console.log("hey")
+        console.log("hey");
     } else if (putCityToStorage != "" && putCityToStorage != savedCityArray[savedCityArray.indexOf(putCityToStorage)]) {
         savedCityArray.push(putCityToStorage);
         localStorage.setItem("cities", JSON.stringify(savedCityArray));
@@ -220,10 +150,7 @@ savedButton.addEventListener("click", function (e) {
     }
 });
 
-//nothing below here works as intended
-
-
-
+//opens and closes the saved cities list
 openSavedButton.addEventListener("click", function (e) {
     searchInject.innerHTML = "";
     if (notListOpen) {
@@ -233,12 +160,16 @@ openSavedButton.addEventListener("click", function (e) {
         for (let i = 0; i < savedCityArray.length; i++) {
             let faveCity = document.createElement("a");
             faveCity.className = "white d-flex justify-content-start";
-            faveCity.textContent = savedCityArray[i];
+            let displayedArray = savedCityArray[i].split(", ");
+            if (displayedArray[2] != "US") {
+                faveCity.textContent = `${displayedArray[0]}, ${displayedArray[2]}`;
+            } else {
+                faveCity.textContent = `${displayedArray[0]}, ${displayedArray[1]}`;
+            }
             faveCity.addEventListener("click", function (e) {
-                //no
-                lat = geoData[4].lat;
-                lon = geoData[4].lon;
-                putCityToStorage = `${geoData[4].name}, ${geoData[4].state}, ${geoData[4].country}`
+                lat = displayedArray[3];
+                lon = displayedArray[4];
+                putCityToStorage = `${displayedArray[0]}, ${displayedArray[1]}, ${displayedArray[2]}, ${displayedArray[3]}, ${displayedArray[4]}`
 
                 CurrentWeatherCall();
                 FiveDayCall();
@@ -246,7 +177,6 @@ openSavedButton.addEventListener("click", function (e) {
             });
             holderDiv.appendChild(faveCity);
         }
-
         searchInject.appendChild(holderDiv);
         notListOpen = false;
     } else {
@@ -254,13 +184,15 @@ openSavedButton.addEventListener("click", function (e) {
     }
 });
 
-//debug
+//debug, removes all saved cities from local storage
 clear.addEventListener("click", function (e) {
     savedCityArray = [];
     console.log(savedCityArray);
 });
 
+//nothing below here works as intended
 //Shadow realm
+
 function HourlyForecast() {
     //call all of the data from hourly forecast
     //put them into an array
@@ -277,7 +209,6 @@ function HourlyForecast() {
         let currentDate = new Date((fiveDayData[i].dt) * 1000);
         console.log(currentDate.toGMTString());
 
-        //huge pepega: data from api is in utc, locale convert brings it to utc-7, should be 8 but AAAAAAAAAA
 
     }
     // console.log(fiveArray)
@@ -318,3 +249,5 @@ function HourlyForecast() {
 // }
 
 // theForbiddenOne()
+
+//for that 7-day forecast, use another api: https://api.weather.gov/points/38.8894,-77.0352, or c/v `https://api.weather.gov/points/${lat},${lon}`
