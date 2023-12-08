@@ -39,15 +39,11 @@ if (localStorage.getItem("cities")) {
     savedCityArray = JSON.parse(localStorage.getItem("cities"));
 };
 
-
-//is temporarily 'keypress', was originally keyup
-// keyup allows for autocomplete
 //takes the user's input and sends it to the geolocater function
-cityInput.addEventListener("keypress", function (e) {
-    if (event.key === "Enter") {
-        userInput = cityInput.value;
-        geoCall();
-    }
+cityInput.addEventListener("keyup", function (e) {
+    userInput = cityInput.value;
+    geoCall();
+
 });
 
 //calls the geolocater api to gather a list of cities
@@ -119,10 +115,10 @@ async function CurrentWeatherCall() {
     eman = data.weather[0].icon.split("");
     let img = document.createElement("img");
     img.className = "imageSize";
-    if (await data.clouds.all < 11 && eman[2] == "d"){
+    if (await data.clouds.all < 11 && eman[2] == "d") {
         img.src = "./assets/sunny.png";
         img.alt = "Sunny";
-    } else if (await data.clouds.all < 51 && eman[2] == "d"){
+    } else if (await data.clouds.all < 51 && eman[2] == "d") {
         img.src = "./assets/cloudySun.png";
         img.alt = "Cloudy";
     } else if (await data.clouds.all < 11 && eman[2] == "n") {
@@ -232,7 +228,7 @@ function HourlyForecast() {
         let currentDate = new Date((fiveDayData[i].dt) * 1000);
         console.log(currentDate.toGMTString());
 
-        currentDate.split(" ");
+        // currentDate.split(" ");
 
     }
     // console.log(fiveArray)
