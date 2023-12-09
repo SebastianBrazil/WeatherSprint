@@ -26,7 +26,6 @@ let meat;
 let eman = [];
 let savedCityArray = [];
 let bigData = [];
-let fiveArray = [];
 let userInput = "";
 let fiveDayData;
 let lat;
@@ -222,21 +221,17 @@ function HourlyForecast() {
     //add that to variable
     //go to next DT
     //after five DT, end function
-
+    let timeArray = [];
     for (let i = 0; i < fiveDayData.length; i++) {
-        // fiveArray += fiveDayData[i];
-        let currentDate = new Date((fiveDayData[i].dt) * 1000);
-        console.log(currentDate.toGMTString());
+        let gibDate = new Date((fiveDayData[i].dt) * 1000);
+        timeArray += gibDate.toGMTString() + " ";
 
-        // currentDate.split(" ");
+        
 
+        // let ligma = currentDate[i].split(" ");
+        // console.log(ligma);
     }
-    // console.log(fiveArray)
-
-    // for (let i = 0; i < fiveArray.length; i++) {
-    //     let currentDate = new Date((fiveArray.dt) * 1000);
-    //     console.log(currentDate.toLocaleString());
-    // }
+    console.log(timeArray);
 
 
     // nineAM.innerText = await data.list[0].main.temp;
@@ -247,14 +242,8 @@ function HourlyForecast() {
     // twelveAM.innerText = await data.list[5].main.temp;
 
 };
+
 //i need to get the three hour forecast of a single day to show the temp at that time. I cannot use this for current day because openweather big suck. I can do this for the day after current day and 4 days after that. That leaves the current day and the last day that the forbidden one must be used.
-
-
-
-
-
-
-
 
 // async function theForbiddenOne() {
 //     const url = 'https://meteostat.p.rapidapi.com/stations/hourly?station=10637&start=2020-01-01&end=2020-01-01&tz=Europe%2FBerlin';
@@ -277,4 +266,4 @@ function HourlyForecast() {
 
 // theForbiddenOne()
 
-//for that 7-day forecast, use another api: https://api.weather.gov/points/38.8894,-77.0352, or c/v `https://api.weather.gov/points/${lat},${lon}`
+//or another 7-day forecast, use api: https://api.weather.gov/points/38.8894,-77.0352, or c/v `https://api.weather.gov/points/${lat},${lon}`
